@@ -3,7 +3,6 @@
 using namespace std;
 
 long long differenceTime(string t2,string t1){
-    cout<<t1<<" "<<t2<<endl;
 
     int h1=stoi(t1.substr(0,2)),m1=stoi(t1.substr(3,5)),s1=stoi(t1.substr(6,8));       
     int h2=stoi(t2.substr(0,2)),m2=stoi(t2.substr(3,5)),s2=stoi(t2.substr(6,8));
@@ -61,7 +60,7 @@ int main(){
 
 
         if(mp.size()>0 && stoi(preDate.substr(5,7))!=stoi(datee.substr(5,7))){
-            long long minn=0,maxx=LONG_MAX,avg=0,a;
+            long long minn=LONG_MAX,maxx=0,avg=0,a;
             for(auto i:mp){
                 if(i.second.second.second==0){
                     i.second.first=i.second.first+min((long long)21600,differenceTime("19:30:00",i.second.second.first));
@@ -76,7 +75,7 @@ int main(){
             }
 
             avg=avg/mp.size();
-            // cout<<toTimestamp(maxx)<<" "<<toTimestamp(minn)<<" "<<toTimestamp(avg)<<endl;
+            cout<<toTimestamp(maxx)<<" "<<toTimestamp(minn)<<" "<<toTimestamp(avg)<<endl;
             mp.clear();
 
         }
