@@ -3,20 +3,7 @@
 using namespace std;
 
 long long differenceTime(string t2,string t1){
-//     struct tm tm1={0},tm2={0};
-//     istringstream ss(t1);
-//     ss>>get_time(&tm1, "%H:%M:%S");
-//     time_t time1=mktime(&tm1);
-
-//     stringstream ss2(t2);
-//     ss2>>get_time(&tm2, "%H:%M:%S");
-//     time_t time2=mktime(&tm2);
-
-// cout<<tm1.tm_hour<<tm2.tm_hour<<endl;
-// cout<<tm1.tm_sec<<tm2.tm_sec<<endl;
-// cout<<tm1.tm_min<<tm2.tm_min<<endl;
-
-//     return difftime(time2,time1);
+    cout<<t1<<" "<<t2<<endl;
 
     int h1=stoi(t1.substr(0,2)),m1=stoi(t1.substr(3,5)),s1=stoi(t1.substr(6,8));       
     int h2=stoi(t2.substr(0,2)),m2=stoi(t2.substr(3,5)),s2=stoi(t2.substr(6,8));
@@ -72,14 +59,14 @@ int main(){
         string timee=words[2];
         string st=words[3];
 
-        // boost::trim(eid);
-        // boost::trim(datee);
-        // boost::trim(timee);
-        // boost::trim(st);
 
         if(mp.size()>0 && stoi(preDate.substr(5,7))!=stoi(datee.substr(5,7))){
             long long minn=0,maxx=LONG_MAX,avg=0,a;
             for(auto i:mp){
+                if(i.second.second.second==0){
+                    i.second.first=i.second.first+min((long long)21600,differenceTime("19:30:00",i.second.second.first));
+                }
+
                 a=i.second.first;
                 if(a>maxx)
                     maxx=a;
@@ -91,13 +78,11 @@ int main(){
             avg=avg/mp.size();
             // cout<<toTimestamp(maxx)<<" "<<toTimestamp(minn)<<" "<<toTimestamp(avg)<<endl;
             mp.clear();
-            // cout<<"CCCCCCCCCCCCCCCCC"<<endl;
 
         }
         
         int x=v[st];
         if(x==1){
-            // cout<<"SSSS"<<endl;
             mp[eid].second.first=timee;
         }
         else if(x==2){
@@ -106,19 +91,22 @@ int main(){
             mp[eid].second={timee,1};
         }
         else if(x==3){
-            auto x=mp[eid];
-            mp[eid].first=x.first+differenceTime(timee,x.second.first);
-            mp[eid].second={timee,0};
+            if(mp.find(eid)==mp.end()){
+                mp[eid]={0,{timee,0}};
+            }
+            else{
+                auto x=mp[eid];
+                // cout<<timee<<"mmmmmmm "<<x.second.first<<endl;
+                mp[eid].first=x.first+differenceTime(timee,x.second.first);
+                mp[eid].second={timee,0};
+            }
+            
         }
         else{
-            // cout<<"NNN"<<endl;
             mp[eid].second.first=timee;
         }
         
         preDate=datee;
-
-        // cout<<eid<<" "<<x<<" "<<mp[eid].first<<endl;
-
     }
 
     long long minn=LONG_MAX,maxx=0,avg=0,a;
